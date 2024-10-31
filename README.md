@@ -86,7 +86,3 @@ Contributions are welcome! Please follow these steps:
 4. Push to the branch (`git push origin feature/YourFeature`).
 5. Open a pull request.
 
-## Acknowledgements
-
-- Thanks to the developers of the graphics library used in this project.
-- Special thanks to everyone who contributed to the code and documentation.
