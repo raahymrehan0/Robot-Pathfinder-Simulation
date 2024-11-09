@@ -1,88 +1,127 @@
 # Robot Pathfinder Simulation
 
-This C program simulates a robot navigating a grid-based arena to collect randomly placed markers and then deposit them at a designated corner. The program uses a graphics library to visually represent the robot's movement, orientation, and actions within the arena. By randomly generating arena size and marker positions, each simulation run provides a unique navigation challenge, showcasing principles of autonomous movement and control.
+This C program simulates a robot navigating a randomly sized and shaped grid-based arena to collect randomly placed markers and then deposit them at the hometile where the robot spawned. The program uses the graphics.h library to visually represent the robot's movement, orientation, and actions within the arena. By randomly generating marker and obstacle positions, each simulation run provides a unique navigation challenge, showcasing principles of autonomous movement and control. The algorithm used for this is Breadth-First Search
 
 ## Features
 
 - **Random Arena Size**: The arena dimensions vary each run.
-- **Marker Collection System**: The robot finds and collects up to four randomly placed markers.
-- **Marker Deposit at Corner**: After collecting markers, the robot moves to a designated corner to drop them.
+- **Marker Collection System**: The robot finds and collects randomly placed markers.
+- **Marker Deposit at Home**: After collecting markers, the robot moves to a designated home to drop them.
 - **Directional Movement**: The robot moves and rotates in four primary directions.
 - **Real-Time Graphics Display**: Visualizes the robot’s position, arena boundaries, grid, and markers.
+- **BFS Implementation**: Utilizes Breadth-First Search to determine the shortest path for the robot to navigate the arena efficiently.
 
-## Prerequisites & Setup
-
-- **C Compiler**: e.g., GCC.
-- **Graphics Library**: Requires a compatible graphics library (`graphics.h`).
 
 To compile and run the program:
 
 ```bash
-gcc -o RoboPathFinder RoboPathFinder.c graphics.c
+gcc -o "filename" main.c functionality.c graphics.c
 
-./RoboPathFinder | java -jar drawapp-4.0.jar
+./"filename" | java -jar drawapp-4.0.jar
 ```
 
 
 
-## Function Overview
+# Function Documentation
 
-```c
-// Generates random arena dimensions.
-void randomArenaSize();
+## Robot Control Functions
+`drawRobot(myRobot *robot)`
+- Renders the robot on the arena with its current position and direction.
 
-// Initializes arena, grid lines, and boundaries.
-void initArena();
+`initRobot(myRobot *robot)`
+- Initializes a new robot instance with random starting position and direction.
 
-// Places up to four markers in random positions.
-void initMarker(coordinate *marker);
+`left(myRobot *robot)`
+- Rotates the robot 90 degrees counterclockwise.
 
-// Sets robot’s starting position and direction.
-void initRobot(myRobot *robot);
+`right(myRobot *robot)`
+- Rotates the robot 90 degrees clockwise.
 
-// Renders robot’s position and orientation on the grid.
-void drawRobot(myRobot *robot);
+`canMoveForward(myRobot *robot)`
+- Checks if the robot can move forward without hitting obstacles or arena boundaries.
+- Returns: 1 if movement is possible, 0 otherwise.
 
-// Moves the robot forward if within bounds.
-void forward(myRobot *robot);
+`forward(myRobot *robot)`
+- Moves the robot one step forward in its current direction.
 
-// Rotates the robot 90 degrees to the left.
-void left(myRobot *robot);
+## Arena Functions
+`randomArenaSize()`
+- Generates random dimensions for the arena within specified bounds.
 
-// Rotates the robot 90 degrees to the right.
-void right(myRobot *robot);
+`initArena(myRobot *robot)`
+- Initializes the game arena with given dimensions and places the robot.
 
-// Checks if robot is at a marker and returns its index.
-int atMarker(myRobot *robot, coordinate *marker);
+`drawHomeTile(int x, int y)`
+- Draws the home tile marker at specified coordinates.
 
-// Removes the marker after the robot has picked it up.
-void pickUpMarker(coordinate *marker);
+`initGrid()`
+- Initializes the grid for the arena.
 
-// Drops the markers at the corner.
-void dropMarkers(myRobot *robot);
+## Position and Movement Functions
+`areAdjacent(coordinate a, coordinate b)`
+- Checks if two obstacles are adjacent to each other.
+- Returns: 1 if adjacent, 0 otherwise.
 
-// Moves the robot to the corner.
-void moveToCorner(myRobot *robot);
+`isPositionTaken(int x, int y, markers *markersArray, int numMarkers, coordinate *obstaclesArray, int numObstacles)`
+- Verifies if a position is occupied by any game element.
+- Returns: 1 if position is taken, 0 if free.
 
-// Moves the robot to a specific marker.
-void findMarker(myRobot *robot, coordinate *marker);
+## Game Element Initialization
+`initMarker(myRobot *robot, markers *marker)`
+- Initializes a marker at a random valid position in the arena.
 
-// Collects markers in order.
-void findMarkers(myRobot *robot, coordinate *marker);
-```
+`initObstacle(coordinate *obstacle)`
+- Places an obstacle at a random valid position in the arena.
+
+`randomDirection(myRobot *robot)`
+- Sets a random direction for the robot.
+
+## Marker Interaction Functions
+`atMarker(myRobot *robot, markers *marker)`
+- Checks if robot is at same position as a marker.
+- Returns: 1 if at marker, 0 otherwise.
+
+`pickUpMarker(markers *marker)`
+- Removes the marker from the arena.
+
+`dropMarkers(myRobot *robot)`
+- Drops collected markers at home.
+
+`findMarker(myRobot *robot, markers *marker)`
+- Implements BFS logic for robot to locate a single marker.
+
+`findMarkers(myRobot *robot, markers *marker)`
+- Implements iteration for robot to locate multiple markers.
+
+`moveToHome(myRobot *robot)`
+- Directs the robot back to its home position.
+
+## Queue Management for Pathfinding
+`initializeQueue(Queue* q)`
+- Initializes an empty queue for pathfinding algorithms.
+
+`isQueueEmpty(Queue* q)`
+- Checks if the queue is empty.
+- Returns: 1 if empty, 0 otherwise.
+
+`enqueue(Queue* q, Node* node)`
+- Adds a node to the back of the queue.
+- Returns: 1 if successful, 0 if queue is full.
+
+`dequeue(Queue* q)`
+- Removes and returns the front node from the queue.
+- Returns: Pointer to the dequeued node, NULL if queue is empty.
+
+## Pathfinding Functions
+`isValid(int x, int y)`
+- Checks if given coordinates are within arena bounds.
+- Returns: 1 if valid, 0 if invalid.
+
+`bfsPathfinding(int start_x, int start_y, int target_x, int target_y, int* pathLength)`
+- Implements Breadth-First Search algorithm for finding optimal path.
+- Returns: Array of nodes representing the path from start to target.
 
 ## Usage Instructions
 
 - Launch the program to view the simulation.
 - Observe the robot as it navigates the arena, collects markers, and deposits them at the corner.
-
-## Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/YourFeature`).
-3. Make your changes and commit them (`git commit -m 'Add some feature'`).
-4. Push to the branch (`git push origin feature/YourFeature`).
-5. Open a pull request.
-
