@@ -1,6 +1,6 @@
 # Robot Pathfinder Simulation
 
-This C program simulates a robot navigating a randomly sized and shaped grid-based arena to collect randomly placed markers and then deposit them at the hometile where the robot spawned. The program uses the graphics.h library to visually represent the robot's movement, orientation, and actions within the arena. By randomly generating marker and obstacle positions, each simulation run provides a unique navigation challenge, showcasing principles of autonomous movement and control. The algorithm used for this is Breadth-First Search
+This C program simulates a robot navigating a randomly sized and shaped grid-based arena to collect randomly placed markers and then deposit them at the hometile where the robot spawned. The program uses the graphics.h library to visually represent the robot's movement, orientation, and actions within the arena. By randomly generating marker and obstacle positions, each simulation run provides a unique navigation challenge, showcasing principles of autonomous movement and control. The algorithm used for this is Breadth-First Search.
 
 ## Features
 
