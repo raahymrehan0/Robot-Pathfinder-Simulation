@@ -124,4 +124,4 @@ gcc -o "filename" main.c functionality.c graphics.c
 ## Usage Instructions
 
 - Launch the program to view the simulation.
-- Observe the robot as it navigates the arena, collects markers, and deposits them at the corner.
+- Observe the robot as it navigates the arena, collects markers, and deposits them.
